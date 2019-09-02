@@ -1,80 +1,69 @@
-# DNCS-LAB
+# Design of Networks and Communication Systems  
+Artuso Stefano
+Accademic Year 2018/19  
+University of Trento
 
-This repository contains the Vagrant files required to run the virtual lab environment used in the DNCS course.
-```
+## Assignment Description
+Basing on a given network topology and a Vagrant File, the candidate must set up the network configuration of 3 hosts, a switch and 2 routers, with the final goal of visit from host-1-a and host-1-b, a website placed in host-2-c. Also, in the subnetwork of _host-1-a_ need to be allocated IP Addresses for at least 130 hosts, and in the subnetwork of host-1-b at least 25. Another requirement given is to consume few IP Addresses as possible.
+
+## Network Topology
+
+         +------------------------------------------------------------+
+         |                                                        eth0|
+     +---+---+                  +------------+                 +------+-----+
+     |       |                  |            |                 |            |
+     |       +------------------+  router-1  +-----------------+  router-2  |
+     |   v   |              eth0|            |eth2         eth2|            |
+     |   a   |                  +-----+------+                 +------+-----+
+     |   g   |                        |eth1                       eth1|
+     |   r   |                        |                               |
+     |   a   |                        |                           eth1|
+     |   n   |                        |eth1                     +-----+----+
+     |   t   |             +----------+-----------+             |          |
+     |       |             |                      |             |          |
+     |   m   +-------------+        switch        |             | host-2-c |
+     |   a   |         eth0|                      |             |          |
+     |   n   |             +---+--------------+---+             |          |
+     |   a   |                 |eth2      eth3|                 +-----+----+
+     |   g   |                 |              |                   eth0|
+     |   e   |                 |              |                       |
+     |   m   |                 |eth1      eth1|                       |
+     |   e   |           +-----+----+    +----+-----+                 |
+     |   n   |           |          |    |          |                 |
+     |   t   |           |          |    |          |                 |
+     |       +-----------+ host-1-a |    | host-1-b |                 |
+     |       |       eth0|          |    |          |                 |
+     |       |           |          |    |          |                 |
+     +--+-+--+           +----------+    +----+-----+                 |
+        | |                               eth0|                       |
+        | +-----------------------------------+                       |
+        +-------------------------------------------------------------+
+
+## VLAN's
+It was also created two separated VLAN's in the router-1 area, to create a trunk port in the switch which communicate with the router, and to keep separated the two subnets.
+| VLAN   | VLAN TAG| Interface|
+| -------- | --------- |-----|
+| router-1 --> host-1-a| 10 | eth1.2 |
+| router-1 --> host-1-b | 20 | eth1.3 |
 
 
-        +-----------------------------------------------------+
-        |                                                     |
-        |                                                     |eth0
-        +--+--+                +------------+             +------------+
-        |     |                |            |             |            |
-        |     |            eth0|            |eth2     eth2|            |
-        |     +----------------+  router-1  +-------------+  router-2  |
-        |     |                |            |             |            |
-        |     |                |            |             |            |
-        |  M  |                +------------+             +------------+
-        |  A  |                      |eth1                       |eth1
-        |  N  |                      |                           |
-        |  A  |                      |                           |
-        |  G  |                      |                     +-----+----+
-        |  E  |                      |eth1                 |          |
-        |  M  |            +-------------------+           |          |
-        |  E  |        eth0|                   |           | host-2-c |
-        |  N  +------------+      SWITCH       |           |          |
-        |  T  |            |                   |           |          |
-        |     |            +-------------------+           +----------+
-        |  V  |               |eth2         |eth3                |eth0
-        |  A  |               |             |                    |
-        |  G  |               |             |                    |
-        |  R  |               |eth1         |eth1                |
-        |  A  |        +----------+     +----------+             |
-        |  N  |        |          |     |          |             |
-        |  T  |    eth0|          |     |          |             |
-        |     +--------+ host-1-a |     | host-1-b |             |
-        |     |        |          |     |          |             |
-        |     |        |          |     |          |             |
-        ++-+--+        +----------+     +----------+             |
-        | |                              |eth0                  |
-        | |                              |                      |
-        | +------------------------------+                      |
-        |                                                       |
-        |                                                       |
-        +-------------------------------------------------------+
+## Interfaces-IP List
 
+List of all the the links in the network and the IP Address and subnet mask of the interface of the given starting device 
 
+| Link   | Interface | IP   |
+| -------- | --------- | ----------------- |
+| router-1 --> router-2 | eth2      | 192.168.95.94/30   |
+| router-1 --> host-1-a | eth1.2      | 192.168.56.254/24  |
+| router-1 --> host-1-b | eth1.3    | 192.168.60.30/27  |
+| host-1-a --> router-1 | eth1.2    | 192.168.56.1/24  |
+| host-1-b --> router-1 | eth1.3    | 192.168.60.1/27  |
+| router-2 --> router-1 | eth2      | 192.168.95.93/30   |
+| router-2 --> host-2-c | eth1      | 192.168.251.253/30   |
+| host-2-c --> router-2 | eth1      | 192.168.251.254/30 |
 
-```
+## Assignment Validation
 
-# Requirements
- - 10GB disk storage
- - 2GB free RAM
- - Virtualbox
- - Vagrant (https://www.vagrantup.com)
- - Internet
-
-# How-to
- - Install Virtualbox and Vagrant
- - Clone this repository
-`git clone https://github.com/dustnic/dncs-lab`
- - You should be able to launch the lab from within the cloned repo folder.
-```
-cd dncs-lab
-[~/dncs-lab] vagrant up
-```
-Once you launch the vagrant script, it may take a while for the entire topology to become available.
- - Verify the status of the 4 VMs
- ```
- [dncs-lab]$ vagrant status                                                                                                                                                                
-Current machine states:
-
-router                    running (virtualbox)
-switch                    running (virtualbox)
-host-a                    running (virtualbox)
-host-b                    running (virtualbox)
-```
-- Once all the VMs are running verify you can log into all of them:
-`vagrant ssh router`
-`vagrant ssh switch`
-`vagrant ssh host-a`
-`vagrant ssh host-b`
+After running `vagrant up`, from all the left-sided hosts is possible to ping the host-2-c by entering in one of the two shells and issuing `ping 192.168.251.254`.
+For visit the web-page, please enter in the shell of the _host-2-c_ machine by issuing `vagrant ssh host-2-c` and launch a webserver by issuing `sudo python -m SimpleHTTPServer 8080`.
+Entering now the shell in the host-1-b machine [`vagrant ssh host-1-b`] and issuing `curl http://192.168.251.254:8080`, the HTML code of the page is returned.
