@@ -41,9 +41,10 @@ Basing on a given network topology and a Vagrant File, the candidate must set up
 
 ## VLAN's
 It was also created two separated VLAN's in the router-1 area, to create a trunk port in the switch which communicate with the router, and to keep separated the two subnets.
-| VLAN   | VLAN TAG| Interface|
-| -------- | --------- |-----|
-| router-1 --> host-1-a| 10 | eth1.2 |
+
+| VLAN     | VLAN TAG  | Interface |
+| --------------- | --------- | ----------- |
+| router-1 --> host-1-a | 10 | eth1.2 |
 | router-1 --> host-1-b | 20 | eth1.3 |
 
 
