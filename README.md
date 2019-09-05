@@ -40,7 +40,7 @@ Basing on a given network topology and a Vagrant File, the candidate must set up
         +-------------------------------------------------------------+
 
 ## VLAN's
-It was also created two separated VLAN's in the router-1 area, to create a trunk port in the switch which communicate with the router, and to keep separated the two subnets.
+It was also created two separated VLAN's in the router-1 area, to create a trunk port in the switch which communicate with the router, and to keep separated the two subnets and to avoid having two same IP in the same subnet.
 
 | VLAN     | VLAN TAG  | Interface |
 | --------------- | --------- | ----------- |
@@ -50,7 +50,7 @@ It was also created two separated VLAN's in the router-1 area, to create a trunk
 
 ## Interfaces-IP List
 
-List of all the the links in the network and the IP Address and subnet mask of the interface of the given starting device 
+List of all the the links in the network and the IP Address and subnet mask bits of the interface of the device 
 
 | Link   | Interface | IP   |
 | -------- | --------- | ----------------- |
@@ -67,4 +67,4 @@ List of all the the links in the network and the IP Address and subnet mask of t
 
 After running `vagrant up`, from all the left-sided hosts is possible to ping the host-2-c by entering in one of the two shells and issuing `ping 192.168.251.254`.
 For visit the web-page, please enter in the shell of the _host-2-c_ machine by issuing `vagrant ssh host-2-c` and launch a webserver by issuing `sudo python -m SimpleHTTPServer 8080`.
-Entering now the shell in the host-1-b machine [`vagrant ssh host-1-b`] and issuing `curl http://192.168.251.254:8080`, the HTML code of the page is returned.
+Please enter now the shell in the host-1-b machine [`vagrant ssh host-1-b`] and issue `curl http://192.168.251.254:8080` to see the HTML code of the web-page hosted in host-2-c.
